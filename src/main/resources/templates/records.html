@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Records</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #333;
+            color: white;
+        }
+
+        a.button {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+
+        a.button.edit {
+            background-color: #2196F3;
+        }
+
+        a.button.delete {
+            background-color: #F44336;
+        }
+    </style>
+</head>
+<body>
+<h2>Records</h2>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>User</th>
+        <th>Service</th>
+        <th>Master</th>
+        <th>Comment</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="record : ${records}">
+        <td th:text="${record.id}"></td>
+        <td th:text="${record.user.name}"></td>
+        <td th:text="${record.service.name}"></td>
+        <td th:text="${record.master.name}"></td>
+        <td th:text="${record.comment}"></td>
+        <td>
+            <a th:href="@{/records/{id}/edit(id=${record.id})}" class="button edit">Edit</a>
+            <a th:href="@{/records/{id}/delete(id=${record.id})}" class="button delete">Delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<a href="/records/add" class="button">Add Record</a>
+</body>
+</html>
