@@ -2,7 +2,7 @@
 <html lang="ru,en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Добавление услугу</title>
+    <title>Edit Standart Text Response</title>
     <style>
         body {
             background-color: floralwhite;
@@ -98,14 +98,18 @@
     </style>
 </head>
 <body>
-<h2>Добавление услуги</h2>
+<h1>Изменение Стандартного текстового ответа</h1>
+<form th:object="${textResponse}" th:action="@{/responses/update/{id}(id=${textResponse.id})}" method="post">
 
-<form action="/services/add" method="post" th:object="${service}">
-    <label for="name">Имя:</label>
-    <input type="text" id="name" th:field="*{name}">
-    <button type="submit" class="button">Добавить услугу</button>
+    <div>
+        <label for="name">Имя:</label>
+        <input type="text" id="name" th:field="${textResponse.name}">
+    </div>
+    <div>
+        <label for="text">Текст:</label>
+        <textarea id="text" th:field="${textResponse.text}"></textarea>
+    </div>
+    <button type="submit">Обновить</button>
 </form>
-
-<a href="/services">Назад</a>
 </body>
 </html>

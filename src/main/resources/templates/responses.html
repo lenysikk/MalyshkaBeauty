@@ -2,7 +2,7 @@
 <html lang="ru,en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Добавление услугу</title>
+    <title>Стандартные текстовые ответы</title>
     <style>
         body {
             background-color: floralwhite;
@@ -10,7 +10,7 @@
             text-align: center;
         }
 
-        h2 {
+        h1 {
             color: black;
             font-size: 50px;
         }
@@ -95,17 +95,33 @@
             padding: 8px;
             font-size: 16px;
         }
+
+        .text-column {
+            max-width: 400px; /* Уменьшенная ширина колонки с текстом */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
     </style>
 </head>
 <body>
-<h2>Добавление услуги</h2>
-
-<form action="/services/add" method="post" th:object="${service}">
-    <label for="name">Имя:</label>
-    <input type="text" id="name" th:field="*{name}">
-    <button type="submit" class="button">Добавить услугу</button>
-</form>
-
-<a href="/services">Назад</a>
+<h1>Стандартные текстовые ответы</h1>
+<table>
+    <caption>Стандартные текстовые ответы</caption>
+    <tr>
+        <th>ID</th>
+        <th>Имя</th>
+        <th>Текст</th>
+        <th>Действие</th>
+    </tr>
+    <tr th:each="textResponse : ${textResponses}">
+        <td th:text="${textResponse.id}"></td>
+        <td th:text="${textResponse.name}"></td>
+        <td th:text="${textResponse.text}" class="text-column"></td> <!-- Добавлен класс "text-column" -->
+        <td>
+            <a th:href="@{/responses/edit/{id}(id=${textResponse.id})}" class="button">Изменить</a>
+        </td>
+    </tr>
+</table>
 </body>
 </html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ru,en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавление мастера</title>
+    <style>
+        body {
+            background-color: floralwhite;
+            color: black;
+            text-align: center;
+        }
+
+        h2 {
+            color: black;
+            font-size: 50px;
+        }
+
+        .button {
+            display: inline-block;
+            background-color: #ff80bf;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            margin-right: 10px;
+            margin-bottom: 20px;
+            width: calc(33.33% - 20px);
+            text-align: center;
+            border: none;
+            border-radius: 4px;
+        }
+
+        .button-no-border {
+            display: inline-block;
+            background-color: #ff80bf;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border: none;
+            border-radius: 4px;
+            width: 50%;
+            margin-bottom: 20px;
+        }
+
+        .button-no-border:hover {
+            background-color: #ff4081;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid black;
+        }
+
+        th {
+            background-color: pink;
+            color: white;
+        }
+
+        td a {
+            color: black;
+            text-decoration: none;
+            margin-right: 10px;
+        }
+
+        td a:hover {
+            text-decoration: underline;
+        }
+
+        td:last-child {
+            text-align: center;
+        }
+
+        form {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        form input[type="text"],
+        form select {
+            padding: 8px;
+            font-size: 16px;
+            margin-bottom: 10px;
+            width: 50%;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+<h2>Добавление мастера</h2>
+
+<form action="/masters/add" method="post" th:object="${master}">
+    <label for="name" style="font-size: 24px;">Имя:</label>
+    <input type="text" id="name" name="name" required>
+
+    <label for="services" style="font-size: 24px;">Услуги:</label>
+    <select id="services" name="services" multiple>
+        <option th:each="service : ${services}" th:value="${service.id}" th:text="${service.name}"></option>
+    </select>
+
+    <button type="submit" class="button-no-border" style="font-size: 24px";>Добавить</button>
+</form>
+<a href="/masters" class="button" style="font-size: 24px;">Назад</a> <!-- Кнопка для возвращения на страницу masters -->
+</body>
+</html>
