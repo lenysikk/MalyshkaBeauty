@@ -26,7 +26,6 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -55,8 +54,7 @@ public class ServiceControllerTests {
         given(serviceRepository.findAll()).willReturn(services);
 
         // Выполнение GET-запроса на /services
-        mockMvc.perform(get("/services")
-                        .with(user("admin").password("admin@123").roles("ADMIN")))
+        mockMvc.perform(get("/services"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("Service 1")))
                 .andExpect(content().string(containsString("Service 2")));
@@ -66,8 +64,7 @@ public class ServiceControllerTests {
     public void testAddService() throws Exception {
         // Выполнение POST-запроса на /services/add с передачей параметров
         mockMvc.perform(MockMvcRequestBuilders.post("/services/add")
-                        .param("name", "Test Service")
-                        .with(user("admin").password("admin@123").roles("ADMIN")))
+                        .param("name", "Test Service"))
                 .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers.redirectedUrl("/services"));
 
@@ -85,8 +82,7 @@ public class ServiceControllerTests {
         given(serviceRepository.findById(1L)).willReturn(Optional.of(service));
 
         // Выполнение GET-запроса на /services/{id} для получения добавленного сервиса
-        mockMvc.perform(get("/services/{id}", 1)
-                        .with(user("admin").password("admin@123").roles("ADMIN")))
+        mockMvc.perform(get("/services/{id}", 1))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("Test Service")));
     }
@@ -101,8 +97,7 @@ public class ServiceControllerTests {
         given(serviceRepository.findById(1L)).willReturn(Optional.of(service));
 
         // Выполнение GET-запроса на /services/{id}/delete для удаления сервиса
-        mockMvc.perform(get("/services/{id}/delete", 1)
-                        .with(user("admin").password("admin@123").roles("ADMIN")))
+        mockMvc.perform(get("/services/{id}/delete", 1))
                 .andExpect(status().isFound());
 
         // Проверка, что сервис был успешно удален

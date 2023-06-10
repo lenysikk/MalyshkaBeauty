@@ -20,7 +20,6 @@ import java.util.Optional;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(UserController.class)
@@ -50,8 +49,7 @@ public class UserControllerTests {
         when(userRepository.findAll()).thenReturn(users);
 
         // Выполнение GET-запроса на /users без searchQuery
-        mockMvc.perform(MockMvcRequestBuilders.get("/users")
-                        .with(user("admin").password("admin@123").roles("ADMIN")))
+        mockMvc.perform(MockMvcRequestBuilders.get("/users"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.view().name("users"))
                 .andExpect(MockMvcResultMatchers.model().attributeExists("users"))
@@ -73,8 +71,7 @@ public class UserControllerTests {
         when(userRepository.findByNameContainingIgnoreCase("User")).thenReturn(users);
 
         // Выполнение GET-запроса на /users с searchQuery
-        mockMvc.perform(MockMvcRequestBuilders.get("/users").param("search", "User")
-                        .with(user("admin").password("admin@123").roles("ADMIN")))
+        mockMvc.perform(MockMvcRequestBuilders.get("/users").param("search", "User"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.view().name("users"))
                 .andExpect(MockMvcResultMatchers.model().attributeExists("users"))
@@ -91,10 +88,8 @@ public class UserControllerTests {
         // Задание поведения макета userRepository
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
 
-        // Выполнение GET-запроса на /users/{id} с авторизацией
-        mockMvc.perform(MockMvcRequestBuilders.get("/users/1")
-                        .header("admin", "admin@123", "USER")
-                        .with(user("admin").password("admin@123").roles("ADMIN")))
+        // Выполнение GET-запроса на /users/{id}
+        mockMvc.perform(MockMvcRequestBuilders.get("/users/1"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.view().name("user"))
                 .andExpect(MockMvcResultMatchers.model().attributeExists("user"))
@@ -112,8 +107,7 @@ public class UserControllerTests {
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
 
         // Выполнение GET-запроса на /users/{id}/delete
-        mockMvc.perform(MockMvcRequestBuilders.get("/users/1/delete")
-                        .with(user("admin").password("admin@123").roles("ADMIN")))
+        mockMvc.perform(MockMvcRequestBuilders.get("/users/1/delete"))
                 .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers.redirectedUrl("/users"));
 

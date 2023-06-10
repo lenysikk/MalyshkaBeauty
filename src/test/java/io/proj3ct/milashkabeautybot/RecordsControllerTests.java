@@ -22,7 +22,6 @@ import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -61,8 +60,7 @@ class RecordsControllerTests {
 
         when(recordsRepository.findAll()).thenReturn(recordsList);
 
-        mockMvc.perform(get("/records")
-                        .with(user("admin").password("admin@123").roles("ADMIN")))
+        mockMvc.perform(get("/records"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("records"))
                 .andExpect(model().attributeExists("records"))
@@ -107,8 +105,7 @@ class RecordsControllerTests {
         when(serviceRepository.findAll()).thenReturn(serviceList);
         when(masterRepository.findAll()).thenReturn(masterList);
 
-        mockMvc.perform(get("/records/add")
-                .with(user("admin").password("admin@123").roles("ADMIN")))
+        mockMvc.perform(get("/records/add"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("add-record"))
                 .andExpect(model().attributeExists("users"))
@@ -148,8 +145,7 @@ class RecordsControllerTests {
         when(recordsRepository.save(any(Records.class))).thenReturn(record);
 
         mockMvc.perform(post("/records/add")
-                        .flashAttr("record", record)
-                        .with(user("admin").password("admin@123").roles("ADMIN")))
+                        .flashAttr("record", record))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/records"));
 
@@ -202,8 +198,7 @@ class RecordsControllerTests {
         when(serviceRepository.findAll()).thenReturn(serviceList);
         when(masterRepository.findAll()).thenReturn(masterList);
 
-        mockMvc.perform(get("/records/{id}/edit", recordId)
-                        .with(user("admin").password("admin@123").roles("ADMIN")))
+        mockMvc.perform(get("/records/{id}/edit", recordId))
                 .andExpect(status().isOk())
                 .andExpect(view().name("edit-record"))
                 .andExpect(model().attributeExists("users"))
@@ -251,8 +246,7 @@ class RecordsControllerTests {
         when(recordsRepository.save(any(Records.class))).thenReturn(existingRecord);
 
         mockMvc.perform(post("/records/{id}/edit", recordId)
-                        .flashAttr("record", updatedRecord)
-                        .with(user("admin").password("admin@123").roles("ADMIN")))
+                        .flashAttr("record", updatedRecord))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/records"));
 
@@ -266,8 +260,7 @@ class RecordsControllerTests {
 
         when(recordsRepository.findById(recordId)).thenReturn(Optional.empty());
 
-        mockMvc.perform(post("/records/{id}/edit", recordId)
-                        .with(user("admin").password("admin@123").roles("ADMIN")))
+        mockMvc.perform(post("/records/{id}/edit", recordId))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/records"));
 
@@ -278,8 +271,7 @@ class RecordsControllerTests {
     void testDeleteRecord_RecordExists() throws Exception {
         Long recordId = 1L;
 
-        mockMvc.perform(get("/records/{id}/delete", recordId)
-                        .with(user("admin").password("admin@123").roles("ADMIN")))
+        mockMvc.perform(get("/records/{id}/delete", recordId))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/records"));
 
@@ -292,8 +284,7 @@ class RecordsControllerTests {
 
         doThrow(EmptyResultDataAccessException.class).when(recordsRepository).deleteById(recordId);
 
-        mockMvc.perform(get("/records/{id}/delete", recordId)
-                        .with(user("admin").password("admin@123").roles("ADMIN")))
+        mockMvc.perform(get("/records/{id}/delete", recordId))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/error"));
 

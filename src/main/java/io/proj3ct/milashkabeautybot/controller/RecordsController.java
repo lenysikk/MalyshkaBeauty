@@ -4,7 +4,6 @@ import io.proj3ct.milashkabeautybot.repositories.MasterRepository;
 import io.proj3ct.milashkabeautybot.repositories.RecordsRepository;
 import io.proj3ct.milashkabeautybot.repositories.ServiceRepository;
 import io.proj3ct.milashkabeautybot.repositories.UserRepository;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,6 @@ import org.springframework.ui.Model;
 import io.proj3ct.milashkabeautybot.model.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 import java.util.Optional;
@@ -56,6 +54,7 @@ public class RecordsController {
         recordsRepository.save(recordToSave);
         return "redirect:/records";
     }
+
 
     @GetMapping("/records/{id}/edit")
     public String showEditRecordForm(@PathVariable("id") Long id, Model model) {

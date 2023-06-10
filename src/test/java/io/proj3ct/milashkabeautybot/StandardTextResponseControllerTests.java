@@ -19,7 +19,6 @@ import java.util.Optional;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(StandardTextResponseController.class)
@@ -46,8 +45,7 @@ public class StandardTextResponseControllerTests {
         when(textResponseRepository.findAll()).thenReturn(textResponses);
 
         // Выполнение GET-запроса на /responses
-        mockMvc.perform(MockMvcRequestBuilders.get("/responses")
-                        .with(user("admin").password("admin@123").roles("ADMIN")))
+        mockMvc.perform(MockMvcRequestBuilders.get("/responses"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.view().name("responses"))
                 .andExpect(MockMvcResultMatchers.model().attributeExists("textResponses"))
@@ -65,8 +63,7 @@ public class StandardTextResponseControllerTests {
         when(textResponseRepository.findById(1L)).thenReturn(Optional.of(response));
 
         // Выполнение GET-запроса на /responses/edit/{id}
-        mockMvc.perform(MockMvcRequestBuilders.get("/responses/edit/1")
-                        .with(user("admin").password("admin@123").roles("ADMIN")))
+        mockMvc.perform(MockMvcRequestBuilders.get("/responses/edit/1"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.view().name("edit_responses"))
                 .andExpect(MockMvcResultMatchers.model().attributeExists("textResponse"))
@@ -87,8 +84,7 @@ public class StandardTextResponseControllerTests {
         // Выполнение POST-запроса на /responses/update/{id} с передачей параметров
         mockMvc.perform(MockMvcRequestBuilders.post("/responses/update/1")
                         .param("name", "Response 1")
-                        .param("text", "Updated text")
-                        .with(user("admin").password("admin@123").roles("ADMIN")))
+                        .param("text", "Updated text"))
                 .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers.redirectedUrl("/responses"));
 

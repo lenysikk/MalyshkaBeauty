@@ -6,7 +6,6 @@ import io.proj3ct.milashkabeautybot.repositories.MasterRepository;
 import io.proj3ct.milashkabeautybot.repositories.ServiceRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -32,8 +31,10 @@ public class MasterController {
         List<Service> serviceList = serviceRepository.findAll();
         model.addAttribute("services", serviceList);
         model.addAttribute("master", new Master());
+
         return "add-master";
     }
+
 
     @PostMapping("/masters/add")
     public String addMaster(@ModelAttribute("master") Master master) {

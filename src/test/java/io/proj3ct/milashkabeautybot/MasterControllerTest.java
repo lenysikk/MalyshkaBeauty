@@ -13,7 +13,6 @@ import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -54,8 +53,7 @@ class MasterControllerTest {
 
         when(masterRepository.findAll()).thenReturn(masterList);
 
-        mockMvc.perform(get("/masters")
-                        .with(user("admin").password("admin@123").roles("ADMIN")))
+        mockMvc.perform(get("/masters"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("masters"))
                 .andExpect(model().attributeExists("masters"))
@@ -72,8 +70,7 @@ class MasterControllerTest {
 
         mockMvc.perform(post("/masters/add")
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                        .param("name", "John")
-                        .with(user("admin").password("admin@123").roles("ADMIN")))
+                        .param("name", "John"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/masters"));
 
@@ -89,8 +86,7 @@ class MasterControllerTest {
 
         when(masterRepository.findById(masterId)).thenReturn(Optional.of(master));
 
-        mockMvc.perform(get("/masters/{id}", masterId)
-                        .with(user("admin").password("admin@123").roles("ADMIN")))
+        mockMvc.perform(get("/masters/{id}", masterId))
                 .andExpect(status().isOk())
                 .andExpect(view().name("master-details"))
                 .andExpect(model().attributeExists("master"))
@@ -105,8 +101,7 @@ class MasterControllerTest {
 
         when(masterRepository.findById(masterId)).thenReturn(Optional.empty());
 
-        mockMvc.perform(get("/masters/{id}", masterId)
-                        .with(user("admin").password("admin@123").roles("ADMIN")))
+        mockMvc.perform(get("/masters/{id}", masterId))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/masters"));
 
@@ -133,8 +128,7 @@ class MasterControllerTest {
         when(masterRepository.findById(masterId)).thenReturn(Optional.of(master));
         when(serviceRepository.findAll()).thenReturn(serviceList);
 
-        mockMvc.perform(get("/masters/{id}/edit", masterId)
-                        .with(user("admin").password("admin@123").roles("ADMIN")))
+        mockMvc.perform(get("/masters/{id}/edit", masterId))
                 .andExpect(status().isOk())
                 .andExpect(view().name("edit-master"))
                 .andExpect(model().attributeExists("services"))
@@ -152,8 +146,7 @@ class MasterControllerTest {
 
         when(masterRepository.findById(masterId)).thenReturn(Optional.empty());
 
-        mockMvc.perform(get("/masters/{id}/edit", masterId)
-                        .with(user("admin").password("admin@123").roles("ADMIN")))
+        mockMvc.perform(get("/masters/{id}/edit", masterId))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/masters"));
 
@@ -176,8 +169,7 @@ class MasterControllerTest {
 
         mockMvc.perform(post("/masters/{id}/edit", masterId)
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                        .param("name", updatedMaster.getName())
-                        .with(user("admin").password("admin@123").roles("ADMIN")))
+                        .param("name", updatedMaster.getName()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/masters/" + masterId));
     }
@@ -189,7 +181,6 @@ class MasterControllerTest {
         when(masterRepository.findById(masterId)).thenReturn(Optional.empty());
 
         mockMvc.perform(post("/masters/{id}/edit", masterId)
-                        .with(user("admin").password("admin@123").roles("ADMIN"))
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .param("name", "Alice"))
 
@@ -208,8 +199,7 @@ class MasterControllerTest {
         when(masterRepository.findById(masterId)).thenReturn(optionalMaster);
         doNothing().when(masterRepository).deleteById(anyLong());
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/masters/{id}/delete", masterId)
-                        .with(user("admin").password("admin@123").roles("ADMIN")))
+        mockMvc.perform(MockMvcRequestBuilders.get("/masters/{id}/delete", masterId))
                 .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers.redirectedUrl("/masters"));
 
