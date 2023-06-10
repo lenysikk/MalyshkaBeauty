@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ru,en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <style>
+        body {
+            background-color: floralwhite;
+            color: black;
+            text-align: center; /* Выравнивание текста по центру */
+        }
+
+        h2 {
+            color: black;
+        }
+
+        .button-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .button {
+            display: inline-block;
+            background-color: #ff80bf;
+            color: black;
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-top: 10px;
+            margin-right: 10px;
+            width: calc(33.33% - 20px);
+            text-align: center;
+        }
+
+        .button:last-child {
+            margin-right: 0;
+        }
+
+        .button:hover {
+            background-color: #ff4081;
+            color: white;
+        }
+
+        table {
+            width: 100%;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: pink;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<h1>Добро пожаловать в Салон Красоты "Милашка"</h1>
+<h2>Это панель администратора</h2>
+<p>
+    Салон Красоты Милашка - ваш идеальный выбор для полного расслабления и преображения.
+    Мы предлагаем широкий спектр услуг для поддержания вашей красоты и ухода за внешностью.
+    Наш профессиональный персонал с радостью встретит вас и поможет вам достичь желаемых результатов.
+</p>
+
+<h2>Таблицы</h2>
+
+<div class="button-container">
+    <a href="/users" class="button">Пользователи</a>
+    <a href="/records" class="button">Записи</a>
+    <a href="/masters" class="button">Мастера</a>
+    <a href="/services" class="button">Услуги</a>
+    <a href="/responses" class="button">Текстовые ответы</a>
+</div>
+
+</body>
+</html>

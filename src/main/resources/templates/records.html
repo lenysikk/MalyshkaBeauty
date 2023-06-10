@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ru,en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Записи</title>
+    <style>
+        body {
+            background-color: floralwhite;
+            color: black;
+            text-align: center;
+        }
+
+        h2 {
+            color: black;
+            font-size: 50px;
+        }
+
+        .button-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .button {
+            display: inline-block;
+            background-color: #ff80bf;
+            color: white;
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-right: 10px;
+            margin-bottom: 20px;
+            width: calc(33.33% - 20px);
+            text-align: center;
+        }
+
+        .button:last-child {
+            margin-right: 0;
+        }
+
+        .button:hover {
+            background-color: #ff4081;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid black;
+        }
+
+        th {
+            background-color: pink;
+            color: white;
+        }
+
+        td a {
+            color: black;
+            text-decoration: none;
+            margin-right: 10px;
+        }
+
+        td a:hover {
+            text-decoration: underline;
+        }
+
+        td:last-child {
+            text-align: center;
+        }
+
+        .button-link {
+            display: inline-block;
+            background-color: #ff80bf;
+            color: white;
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+
+        .button-link:hover {
+            background-color: #ff4081;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        form input[type="text"],
+        form button[type="submit"] {
+            padding: 8px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+<h2>Записи</h2>
+<a href="/records/add" class="button">Добавить запись</a>
+<a href="/home" class="button">Home</a>
+<table>
+    <caption>Записи</caption>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Имя</th>
+        <th>Услуга</th>
+        <th>Мастер</th>
+        <th>Комментарий</th>
+        <th>Подтверждение</th>
+        <th>Действия</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="record : ${records}">
+        <td th:text="${record.id}"></td>
+        <td th:text="${record.user?.name}"></td>
+        <td th:if="${record.service != null}" th:text="${record.service.name}"></td>
+        <td th:unless="${record.service != null}">No Service</td>
+        <td th:if="${record.master != null}" th:text="${record.master.name}"></td>
+        <td th:unless="${record.master != null}">No Master</td>
+        <td th:text="${record.comment}"></td>
+        <td th:text="${record.access}"></td>
+        <td>
+            <a th:href="@{/records/{id}/edit(id=${record.id})}" class="button edit">Изменить</a>
+            <a th:href="@{/records/{id}/delete(id=${record.id})}" class="button delete">Удалить</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

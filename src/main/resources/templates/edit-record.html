@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ru,en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Изменение записи</title>
+    <style>
+        body {
+            background-color: floralwhite;
+            color: black;
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            color: black;
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        .button-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .button {
+            display: inline-block;
+            background-color: #ff80bf;
+            color: white;
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-right: 10px;
+            margin-bottom: 20px;
+            width: calc(33.33% - 20px);
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .button:last-child {
+            margin-right: 0;
+        }
+
+        .button:hover {
+            background-color: #ff4081;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid black;
+        }
+
+        th {
+            background-color: pink;
+            color: white;
+            font-size: 18px;
+        }
+
+        td a {
+            color: black;
+            text-decoration: none;
+            margin-right: 10px;
+        }
+
+        td a:hover {
+            text-decoration: underline;
+        }
+
+        td:last-child {
+            text-align: center;
+        }
+
+        .button-link {
+            display: inline-block;
+            background-color: #ff80bf;
+            color: white;
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+
+        .button-link:hover {
+            background-color: #ff4081;
+        }
+
+        form {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        form label {
+            font-size: 20px;
+        }
+
+        form select, form textarea {
+            width: 100%;
+            padding: 8px;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        form button[type="submit"] {
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+<h1>Изменить запись</h1>
+
+<!-- Форма для редактирования записи -->
+<form th:action="@{/records/{id}/edit(id=${record.id})}" method="post">
+    <!-- Поля для редактирования данных записи -->
+    <label for="user">Имя:</label>
+    <select id="user" name="user">
+        <option th:each="user : ${users}" th:value="${user.id}" th:text="${user.name}" th:selected="${user.id == record.user.id}"></option>
+    </select>
+    <br/>
+    <label for="service">Услуга:</label>
+    <select id="service" name="service">
+        <option th:each="service : ${services}" th:value="${service.id}" th:text="${service.name}" th:selected="${service.id == record.service.id}"></option>
+    </select>
+    <br/>
+    <label for="master">Мастер:</label>
+    <select id="master" name="master">
+        <option th:each="master : ${masters}" th:value="${master.id}" th:text="${master.name}" th:selected="${master.id == record.master.id}"></option>
+    </select>
+    <br/>
+    <label for="comment">Комментарий:</label>
+    <textarea id="comment" name="comment" th:text="${record.comment}"></textarea>
+    <br/>
+    <br/>
+    <label for="access">Подтверждение:</label>
+    <input type="checkbox" id="access" name="access" th:checked="${record.access}" />
+    <br/>
+
+    <!-- Поле для передачи идентификатора записи -->
+    <input type="hidden" id="recordId" name="recordId" th:value="${record.id}" />
+
+    <!-- Кнопка для сохранения изменений -->
+    <button type="submit" class="button">Сохранить</button>
+</form>
+</body>
+</html>

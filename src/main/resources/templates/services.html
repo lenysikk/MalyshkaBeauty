@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ru,en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Услуги</title>
+    <style>
+        body {
+            background-color: floralwhite;
+            color: black;
+            text-align: center;
+        }
+
+        h2 {
+            color: black;
+            font-size: 50px;
+        }
+
+
+        .button {
+            display: inline-block;
+            background-color: #ff80bf;
+            color: white;
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-right: 10px;
+            margin-bottom: 20px;
+            width: calc(33.33% - 20px);
+            text-align: center;
+        }
+
+        .button:last-child {
+            margin-right: 0;
+        }
+
+        .button:hover {
+            background-color: #ff4081;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid black;
+        }
+
+        th {
+            background-color: pink;
+            color: white;
+        }
+
+        td a {
+            color: black;
+            text-decoration: none;
+            margin-right: 10px;
+        }
+
+        td a:hover {
+            text-decoration: underline;
+        }
+
+        td:last-child {
+            text-align: center;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        form input[type="text"],
+        form button[type="submit"] {
+            padding: 8px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+<h2>Услуги</h2>
+<a href="/services/add" class="button">Добавить услугу</a>
+<a href="/home" class="button">Home</a>
+<table>
+    <caption>Услуги</caption>
+    <tr>
+        <th>ID</th>
+        <th>Имя</th>
+        <th>Действия</th>
+    </tr>
+
+    <tr th:each="service : ${services}">
+        <td th:text="${service.id}"></td>
+        <td th:text="${service.name}"></td>
+        <td>
+            <a th:href="@{/services/{id}(id=${service.id})}" class="button view">Просмотр</a>
+            <a th:href="@{/services/{id}/delete(id=${service.id})}" class="button delete" >Удалить</a>
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>
